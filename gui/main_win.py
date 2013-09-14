@@ -1,4 +1,5 @@
 from gi.repository import Gtk
+import add_task_dialog
 
 class MainWin(Gtk.Window):
     
@@ -6,6 +7,7 @@ class MainWin(Gtk.Window):
         #The main window frame
         Gtk.Window.__init__(self, title="Task Master")
         self.connect("delete-event", Gtk.main_quit)
+        self.add_task_dialog = None
         
         self.main_box = Gtk.Box()
         self.main_box.set_orientation(Gtk.Orientation.VERTICAL)
@@ -40,10 +42,18 @@ class MainWin(Gtk.Window):
         self.list_store[path][1] = not self.list_store[path][1]
         
     def on_add(self, widget):
-        pass
+        if self.add_task_dialog == None:
+            self.add_task_dialog = add_task_dialog.AddTaskDialog(self)
+            self.add_task_dialog.show()
+        else:
+            self.add_task_dialog.show()
     
     def on_rm(self, widget):
-        pass
+        
+    
+    def get_list_store(self):
+        
+        return self.list_store
 
 win = MainWin()
 win.show_all()
